@@ -610,7 +610,7 @@ void MakeTriangle::transition_image_layout(
         .pImageMemoryBarriers = &barrier,
     };
 
-    commandBuffer.pipelineBarrier2( dependency_info );
+    commandBuffers[frameIndex].pipelineBarrier2( dependency_info );
 }
 
 void MakeTriangle::recordCommandBuffer(uint32_t imageIndex)
@@ -737,6 +737,8 @@ void MakeTriangle::drawFrame()
     };
 
     result = graphicsQueue.presentKHR(presentInfoKHR);
+
+    frameIndex = (frameIndex + 1) % constants::MAX_FRAMES_IN_FLIGHT;
 }
 
 void MakeTriangle::initVulkan()
@@ -750,7 +752,7 @@ void MakeTriangle::initVulkan()
     createImageViews();
     createGraphicsPipeline();
     createCommandPool();
-    createCommandBuffer();
+    createCommandBuffers();
     createSyncObjects();
 }
 
