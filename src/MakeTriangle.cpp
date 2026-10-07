@@ -1,12 +1,6 @@
 #include "MakeTriangle.hpp"
 #include "constants.hpp"
 #include "vulkan/vulkan.hpp"
-#include <cassert>
-#include <complex>
-#include <cstdint>
-#include <stdexcept>
-#include <vulkan/vulkan_core.h>
-#include <vulkan/vulkan_raii.hpp>
 
 void MakeTriangle::initWindow()
 {
