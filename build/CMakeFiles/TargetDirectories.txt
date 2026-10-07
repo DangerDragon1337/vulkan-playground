@@ -1,0 +1,4 @@
+/home/janaab/Vulkan/Vulkan Playground/build/CMakeFiles/Shaders.dir
+/home/janaab/Vulkan/Vulkan Playground/build/CMakeFiles/my_vulkan_app.dir
+/home/janaab/Vulkan/Vulkan Playground/build/CMakeFiles/edit_cache.dir
+/home/janaab/Vulkan/Vulkan Playground/build/CMakeFiles/rebuild_cache.dir
