@@ -1,15 +1,25 @@
 #include "MakeTriangle.hpp"
 #include "constants.hpp"
 #include "vulkan/vulkan.hpp"
+#include <GLFW/glfw3.h>
+#include <stdexcept>
+
+void MakeTriangle::framebufferResizeCallback(GLFWwindow* window, int width, int height)
+{
+    auto app = reinterpret_cast<MakeTriangle*>(glfwGetWindowUserPointer(window));
+    app->framebufferResized = true;
+}
 
 void MakeTriangle::initWindow()
 {
     glfwInit();
 
     glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-    glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
+    glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
 
     window = glfwCreateWindow(constants::SCREEN_WIDTH, constants::SCREEN_HEIGHT, "Vulkan", nullptr, nullptr);
+    glfwSetWindowUserPointer(window, this); // Required for the static method
+    glfwSetFramebufferSizeCallback(window, framebufferResizeCallback);
 }
 
 void MakeTriangle::createInstance()
@@ -316,13 +326,14 @@ vk::PresentModeKHR MakeTriangle::chooseSwapPresentMode(const std::vector<vk::Pre
 
 vk::Extent2D MakeTriangle::chooseSwapExtent(const vk::SurfaceCapabilitiesKHR& capabilities) const
 {
-    if (capabilities.currentExtent.width != std::numeric_limits<u_int32_t>::max())
+    if (capabilities.currentExtent.width != std::numeric_limits<u_int32_t>::max()) // Surface isn't dictated by the window system and we'll choose the size
     {
         return capabilities.currentExtent;
     }
 
     int width, height;
-    glfwGetFramebufferSize(window, &width, &height);
+    // Not glfwGetWindowSize cuz that's for logical size (96 pixels per inch)
+    glfwGetFramebufferSize(window, &width, &height); // Basically for high-DPI setups where actual pixel size is less than the logical size
 
     return
     {
@@ -334,14 +345,14 @@ vk::Extent2D MakeTriangle::chooseSwapExtent(const vk::SurfaceCapabilitiesKHR& ca
 void MakeTriangle::createSwapChain()
 {
     auto surfaceCapabilities = physicalDevice.getSurfaceCapabilitiesKHR( *surface );
-    swapChainExtent = chooseSwapExtent(surfaceCapabilities);
-    u_int32_t minImageCount = chooseSwapMinImageCount(surfaceCapabilities);
+    swapChainExtent = chooseSwapExtent( surfaceCapabilities );
+    u_int32_t minImageCount = chooseSwapMinImageCount( surfaceCapabilities );
 
     std::vector<vk::SurfaceFormatKHR> availableFormats = physicalDevice.getSurfaceFormatsKHR( *surface );
-    swapChainSurfaceFormat = chooseSwapSurfaceFormat(availableFormats);
+    swapChainSurfaceFormat = chooseSwapSurfaceFormat( availableFormats );
 
     std::vector<vk::PresentModeKHR> availablePresentModes = physicalDevice.getSurfacePresentModesKHR( *surface );
-    vk::PresentModeKHR presentMode = chooseSwapPresentMode(availablePresentModes);
+    vk::PresentModeKHR presentMode = chooseSwapPresentMode( availablePresentModes );
 
     vk::SwapchainCreateInfoKHR swapChainCreateInfo
     {
@@ -359,7 +370,7 @@ void MakeTriangle::createSwapChain()
         .clipped = true
     };
 
-    swapChain = vk::raii::SwapchainKHR(device, swapChainCreateInfo);
+    swapChain = vk::raii::SwapchainKHR( device, swapChainCreateInfo );
     swapChainImages = swapChain.getImages(); // Gets the memory locations of the image buffers allocated in the gpu
 }
 
@@ -384,8 +395,36 @@ void MakeTriangle::createImageViews()
     for (const auto& image : swapChainImages)
     {
         imageViewCreateInfo.image = image;
-        swapChainImageViews.emplace_back(device, imageViewCreateInfo);
+        swapChainImageViews.emplace_back( device, imageViewCreateInfo );
     }
+}
+
+void MakeTriangle::cleanupSwapChain()
+{
+    swapChainImageViews.clear();
+    swapChain = nullptr;
+}
+
+void MakeTriangle::recreateSwapChain()
+{
+    // Check for minimization
+    int width{0}, height{0};
+    while ((width == 0 || height == 0) && !glfwWindowShouldClose(window)) // Second condition if you close the thing while it's minized
+    {
+        glfwGetFramebufferSize(window, &width, &height);
+        glfwWaitEvents(); // Wait in case window got minimized and do nothing (do glfwPollEvents() if you want to run other stuff in the background)
+    }
+    if (glfwWindowShouldClose(window))
+    {
+        return;
+    }
+    
+    device.waitIdle(); // Wait for the previous frame to get completed
+
+    cleanupSwapChain();
+
+    createSwapChain();
+    createImageViews();
 }
 
 // [[nodiscard]] thing avoids using this function without assignment
@@ -699,10 +738,20 @@ void MakeTriangle::drawFrame()
     {
         throw std::runtime_error("Failed to wait for the fence!");
     }
-    device.resetFences(*inFlightFences[frameIndex]); // Unsignals the fence
 
     // Acquires the block of memory in VRAM which the display engine just presented
     auto [result, imageIndex] = swapChain.acquireNextImage( UINT64_MAX, *presentCompleteSemaphores[frameIndex], nullptr ); // timeout, presentation complete, fence
+    if (result == vk::Result::eErrorOutOfDateKHR)
+    {
+        recreateSwapChain();
+        return;
+    }
+    if (result != vk::Result::eSuccess && result != vk::Result::eSuboptimalKHR) // We'll let it present even if it's sub-optimal
+    {
+        assert(result == vk::Result::eTimeout || result == vk::Result::eNotReady); // eTimeout happens on time timeout happening and eNotReady happens when timeout = 0 image isn't there, this is useful when other tasks are there and we don't wanna wait for the image to be done
+        throw std::runtime_error("Failed to acquire swapchain image!");
+    }
+    device.resetFences(*inFlightFences[frameIndex]); // Unsignals the fence (only when we're sure we're gonna present)
 
     recordCommandBuffer(imageIndex);
 
@@ -731,6 +780,15 @@ void MakeTriangle::drawFrame()
     };
 
     result = graphicsQueue.presentKHR(presentInfoKHR);
+    if (result == vk::Result::eSuboptimalKHR || result == vk::Result::eErrorOutOfDateKHR || framebufferResized) // Frame is done, we can recreate for a sub-optimal chain now
+    {
+        framebufferResized = true;
+        recreateSwapChain();
+    }
+    else
+    {
+        assert(result == vk::Result::eSuccess);
+    }
 
     frameIndex = (frameIndex + 1) % constants::MAX_FRAMES_IN_FLIGHT;
 }

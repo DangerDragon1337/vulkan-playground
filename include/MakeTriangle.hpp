@@ -45,7 +45,9 @@ private:
     std::vector<vk::raii::Semaphore> renderFinishedSemaphores;
     std::vector<vk::raii::Fence> inFlightFences;
     uint32_t frameIndex{0};
+    bool framebufferResized{false};
 
+    static void framebufferResizeCallback(GLFWwindow* window, int width, int height);
     void initWindow();
     void createInstance();
     static VKAPI_ATTR vk::Bool32 VKAPI_CALL debugCallback(
@@ -66,6 +68,8 @@ private:
     vk::PresentModeKHR chooseSwapPresentMode(const std::vector<vk::PresentModeKHR>& availablePresentModes) const;
     vk::Extent2D chooseSwapExtent(const vk::SurfaceCapabilitiesKHR& capabilites) const;
     void createSwapChain();
+    void cleanupSwapChain();
+    void recreateSwapChain();
     void createImageViews();
     [[nodiscard]] vk::raii::ShaderModule createShaderModule(const std::vector<char>& code) const;
     void createGraphicsPipeline();

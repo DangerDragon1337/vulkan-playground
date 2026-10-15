@@ -55,19 +55,9 @@ CMakeFiles/my_vulkan_app.dir/src/MakeTriangle.cpp.o: /home/janaab/Vulkan/Vulkan\
   /usr/include/bits/errno.h \
   /usr/include/bits/floatn-common.h \
   /usr/include/bits/floatn.h \
-  /usr/include/bits/flt-eval-method.h \
-  /usr/include/bits/fp-fast.h \
-  /usr/include/bits/fp-logb.h \
-  /usr/include/bits/iscanonical.h \
   /usr/include/bits/libc-header-start.h \
-  /usr/include/bits/libm-simd-decl-stubs.h \
   /usr/include/bits/locale.h \
   /usr/include/bits/long-double.h \
-  /usr/include/bits/math-vector.h \
-  /usr/include/bits/mathcalls-helper-functions.h \
-  /usr/include/bits/mathcalls-macros.h \
-  /usr/include/bits/mathcalls-narrow.h \
-  /usr/include/bits/mathcalls.h \
   /usr/include/bits/pthread_stack_min-dynamic.h \
   /usr/include/bits/pthreadtypes-arch.h \
   /usr/include/bits/pthreadtypes.h \
@@ -194,8 +184,6 @@ CMakeFiles/my_vulkan_app.dir/src/MakeTriangle.cpp.o: /home/janaab/Vulkan/Vulkan\
   /usr/include/c++/16/bits/shared_ptr.h \
   /usr/include/c++/16/bits/shared_ptr_atomic.h \
   /usr/include/c++/16/bits/shared_ptr_base.h \
-  /usr/include/c++/16/bits/specfun.h \
-  /usr/include/c++/16/bits/sstream.tcc \
   /usr/include/c++/16/bits/std_abs.h \
   /usr/include/c++/16/bits/stdexcept_except.h \
   /usr/include/c++/16/bits/stdexcept_throw.h \
@@ -236,9 +224,7 @@ CMakeFiles/my_vulkan_app.dir/src/MakeTriangle.cpp.o: /home/janaab/Vulkan/Vulkan\
   /usr/include/c++/16/cerrno \
   /usr/include/c++/16/charconv \
   /usr/include/c++/16/clocale \
-  /usr/include/c++/16/cmath \
   /usr/include/c++/16/compare \
-  /usr/include/c++/16/complex \
   /usr/include/c++/16/concepts \
   /usr/include/c++/16/cstddef \
   /usr/include/c++/16/cstdint \
@@ -278,24 +264,11 @@ CMakeFiles/my_vulkan_app.dir/src/MakeTriangle.cpp.o: /home/janaab/Vulkan/Vulkan\
   /usr/include/c++/16/pstl/glue_memory_defs.h \
   /usr/include/c++/16/pstl/pstl_config.h \
   /usr/include/c++/16/span \
-  /usr/include/c++/16/sstream \
   /usr/include/c++/16/stdexcept \
   /usr/include/c++/16/streambuf \
   /usr/include/c++/16/string \
   /usr/include/c++/16/string_view \
   /usr/include/c++/16/system_error \
-  /usr/include/c++/16/tr1/bessel_function.tcc \
-  /usr/include/c++/16/tr1/beta_function.tcc \
-  /usr/include/c++/16/tr1/ell_integral.tcc \
-  /usr/include/c++/16/tr1/exp_integral.tcc \
-  /usr/include/c++/16/tr1/gamma.tcc \
-  /usr/include/c++/16/tr1/hypergeometric.tcc \
-  /usr/include/c++/16/tr1/legendre_function.tcc \
-  /usr/include/c++/16/tr1/modified_bessel_func.tcc \
-  /usr/include/c++/16/tr1/poly_hermite.tcc \
-  /usr/include/c++/16/tr1/poly_laguerre.tcc \
-  /usr/include/c++/16/tr1/riemann_zeta.tcc \
-  /usr/include/c++/16/tr1/special_function_util.h \
   /usr/include/c++/16/tuple \
   /usr/include/c++/16/type_traits \
   /usr/include/c++/16/typeinfo \
@@ -332,7 +305,6 @@ CMakeFiles/my_vulkan_app.dir/src/MakeTriangle.cpp.o: /home/janaab/Vulkan/Vulkan\
   /usr/include/linux/stddef.h \
   /usr/include/linux/types.h \
   /usr/include/locale.h \
-  /usr/include/math.h \
   /usr/include/pthread.h \
   /usr/include/sched.h \
   /usr/include/stdc-predef.h \
@@ -1057,7 +1029,9 @@ my_vulkan_app: /home/janaab/vulkanSDK/1.4.357.1/x86_64/lib/VulkanLoader/lib/libv
 
 /usr/include/stdc-predef.h:
 
-/usr/include/math.h:
+/usr/include/wctype.h:
+
+/usr/include/sched.h:
 
 /usr/include/locale.h:
 
@@ -1095,18 +1069,6 @@ my_vulkan_app: /home/janaab/vulkanSDK/1.4.357.1/x86_64/lib/VulkanLoader/lib/libv
 
 /usr/include/c++/16/tuple:
 
-/usr/include/c++/16/tr1/special_function_util.h:
-
-/usr/include/c++/16/tr1/poly_laguerre.tcc:
-
-/usr/include/c++/16/tr1/modified_bessel_func.tcc:
-
-/usr/include/c++/16/tr1/legendre_function.tcc:
-
-/usr/include/c++/16/tr1/ell_integral.tcc:
-
-/usr/include/c++/16/tr1/beta_function.tcc:
-
 /usr/include/strings.h:
 
 /usr/include/c++/16/system_error:
@@ -1115,33 +1077,31 @@ my_vulkan_app: /home/janaab/vulkanSDK/1.4.357.1/x86_64/lib/VulkanLoader/lib/libv
 
 /usr/include/c++/16/streambuf:
 
-/usr/include/c++/16/sstream:
-
 /usr/include/c++/16/x86_64-redhat-linux/bits/c++io.h:
 
 /usr/include/c++/16/span:
 
 /usr/include/c++/16/pstl/glue_memory_defs.h:
 
-/usr/include/c++/16/x86_64-redhat-linux/bits/c++allocator.h:
+/usr/include/c++/16/bits/stl_multimap.h:
 
-/usr/include/c++/16/numbers:
+/usr/include/c++/16/bits/basic_string.tcc:
 
-/usr/include/c++/16/memory:
+/home/janaab/Vulkan/Vulkan\ Playground/src/functions.cpp:
 
-/usr/include/c++/16/locale:
-
-/usr/include/c++/16/limits:
-
-/usr/include/c++/16/istream:
-
-/usr/include/c++/16/iostream:
+/usr/include/c++/16/bits/basic_string.h:
 
 /usr/include/c++/16/ios:
 
-/usr/include/c++/16/tr1/riemann_zeta.tcc:
+/usr/include/c++/16/bits/atomic_lockfree_defines.h:
 
-/usr/include/c++/16/initializer_list:
+/usr/include/KHR/khrplatform.h:
+
+/lib64/libm.so.6:
+
+/home/janaab/Vulkan/Vulkan\ Playground/src/main.cpp:
+
+/usr/include/c++/16/bits/atomic_base.h:
 
 /usr/include/c++/16/pstl/execution_defs.h:
 
@@ -1151,9 +1111,15 @@ my_vulkan_app: /home/janaab/vulkanSDK/1.4.357.1/x86_64/lib/VulkanLoader/lib/libv
 
 /usr/include/bits/stdlib-float.h:
 
+/usr/include/c++/16/bits/algorithmfwd.h:
+
 /usr/include/c++/16/bits/unicode.h:
 
 /usr/include/c++/16/bit:
+
+/usr/include/c++/16/bits/basic_ios.h:
+
+/home/janaab/vulkanSDK/1.4.357.1/x86_64/include/vk_video/vulkan_video_codec_h265std_decode.h:
 
 /usr/include/c++/16/algorithm:
 
@@ -1161,11 +1127,19 @@ my_vulkan_app: /home/janaab/vulkanSDK/1.4.357.1/x86_64/lib/VulkanLoader/lib/libv
 
 /usr/include/bits/timesize.h:
 
-/usr/include/c++/16/new:
-
-/usr/include/bits/types/wint_t.h:
-
 /usr/include/c++/16/backward/binders.h:
+
+/usr/include/bits/types/timer_t.h:
+
+/home/janaab/vulkanSDK/1.4.357.1/x86_64/include/vulkan/vulkan_handles.hpp:
+
+/usr/include/errno.h:
+
+/home/janaab/vulkanSDK/1.4.357.1/x86_64/include/vulkan/vulkan.hpp:
+
+/usr/include/c++/16/bits/ostream_insert.h:
+
+/home/janaab/vulkanSDK/1.4.357.1/x86_64/include/vulkan/vulkan_raii.hpp:
 
 /usr/include/bits/types/struct_tm.h:
 
@@ -1191,13 +1165,31 @@ my_vulkan_app: /home/janaab/vulkanSDK/1.4.357.1/x86_64/lib/VulkanLoader/lib/libv
 
 /usr/include/bits/types/__locale_t.h:
 
+/usr/include/c++/16/bits/char_traits.h:
+
+/usr/include/bits/types/__fpos_t.h:
+
+/usr/include/bits/types/clock_t.h:
+
 /usr/include/c++/16/string_view:
 
 /usr/include/bits/types/__fpos64_t.h:
 
+/usr/include/c++/16/bits/align.h:
+
 /home/janaab/vulkanSDK/1.4.357.1/x86_64/include/vulkan/vulkan_to_string.hpp:
 
 /usr/include/c++/16/bits/locale_facets_nonio.tcc:
+
+CMakeFiles/my_vulkan_app.dir/src/main.cpp.o:
+
+/usr/include/bits/types/time_t.h:
+
+/usr/include/c++/16/bits/localefwd.h:
+
+/usr/include/c++/16/bits/ostream.tcc:
+
+/usr/include/c++/16/bits/shared_ptr_atomic.h:
 
 /usr/include/c++/16/x86_64-redhat-linux/bits/ctype_base.h:
 
@@ -1217,65 +1209,21 @@ my_vulkan_app: /home/janaab/vulkanSDK/1.4.357.1/x86_64/lib/VulkanLoader/lib/libv
 
 /usr/include/c++/16/ext/aligned_buffer.h:
 
-/lib64/libm.so.6:
-
-/home/janaab/Vulkan/Vulkan\ Playground/src/main.cpp:
-
-/usr/include/c++/16/bits/atomic_base.h:
-
 /usr/include/c++/16/bits/memoryfwd.h:
 
-/usr/include/c++/16/backward/auto_ptr.h:
+/usr/include/stdlib.h:
 
-/usr/include/c++/16/bits/atomic_wait.h:
+/home/janaab/vulkanSDK/1.4.357.1/x86_64/include/vk_video/vulkan_video_codec_av1std_encode.h:
 
-/usr/include/bits/pthreadtypes-arch.h:
+/usr/include/gnu/stubs.h:
 
-/usr/include/stdint.h:
+/usr/include/c++/16/x86_64-redhat-linux/bits/c++locale.h:
 
-/usr/include/endian.h:
+/usr/include/c++/16/bits/std_abs.h:
 
-/usr/include/c++/16/bits/exception.h:
+/usr/include/c++/16/bits/cxxabi_forced.h:
 
-/usr/include/bits/pthread_stack_min-dynamic.h:
-
-/usr/include/bits/types/timer_t.h:
-
-/usr/include/errno.h:
-
-/home/janaab/vulkanSDK/1.4.357.1/x86_64/include/vulkan/vulkan.hpp:
-
-/home/janaab/vulkanSDK/1.4.357.1/x86_64/include/vulkan/vulkan_handles.hpp:
-
-/usr/include/c++/16/bits/ostream_insert.h:
-
-/usr/include/c++/16/bits/stl_relops.h:
-
-CMakeFiles/my_vulkan_app.dir/src/main.cpp.o:
-
-/usr/include/bits/types/time_t.h:
-
-/usr/include/c++/16/bits/localefwd.h:
-
-/usr/include/c++/16/bits/ostream.tcc:
-
-/usr/include/c++/16/bits/shared_ptr_atomic.h:
-
-/usr/include/c++/16/bits/ptr_traits.h:
-
-/usr/include/bits/types/clock_t.h:
-
-/usr/include/bits/mathcalls.h:
-
-/usr/include/bits/math-vector.h:
-
-/usr/include/c++/16/tr1/bessel_function.tcc:
-
-/usr/include/c++/16/bits/algorithmfwd.h:
-
-/usr/include/bits/libm-simd-decl-stubs.h:
-
-/home/janaab/vulkanSDK/1.4.357.1/x86_64/include/vulkan/vulkan_structs.hpp:
+/usr/include/c++/16/cwctype:
 
 /usr/include/bits/types/sigset_t.h:
 
@@ -1287,23 +1235,23 @@ CMakeFiles/my_vulkan_app.dir/src/main.cpp.o:
 
 /usr/include/c++/16/bits/requires_hosted.h:
 
-/usr/include/c++/16/tr1/poly_hermite.tcc:
-
 /usr/include/bits/types/error_t.h:
 
 /home/janaab/vulkanSDK/1.4.357.1/x86_64/include/vulkan/vulkan_enums.hpp:
 
 /usr/include/c++/16/bits/unique_ptr.h:
 
-/home/janaab/vulkanSDK/1.4.357.1/x86_64/include/vk_video/vulkan_video_codec_h265std_decode.h:
+/usr/include/bits/libc-header-start.h:
 
-/usr/include/c++/16/bits/basic_ios.h:
+/home/janaab/vulkanSDK/1.4.357.1/x86_64/include/vk_video/vulkan_video_codec_h265std.h:
 
-/usr/include/c++/16/iosfwd:
+/usr/include/pthread.h:
 
-/usr/include/bits/types/__sigset_t.h:
+/usr/include/c++/16/compare:
 
 /usr/include/c++/16/bits/stl_map.h:
+
+/usr/include/c++/16/locale:
 
 /usr/include/bits/types/struct_FILE.h:
 
@@ -1317,21 +1265,19 @@ CMakeFiles/my_vulkan_app.dir/src/main.cpp.o:
 
 /usr/include/c++/16/bits/concept_check.h:
 
-/usr/include/wctype.h:
-
-/usr/include/sched.h:
-
-/usr/include/c++/16/tr1/hypergeometric.tcc:
-
-/usr/include/bits/fp-fast.h:
-
-/usr/include/c++/16/bits/basic_string.tcc:
-
 /usr/include/bits/stdint-intn.h:
 
 /usr/include/bits/types/clockid_t.h:
 
+/usr/include/c++/16/cstdlib:
+
+/usr/include/bits/errno.h:
+
 /usr/include/bits/timex.h:
+
+/usr/include/c++/16/x86_64-redhat-linux/bits/c++allocator.h:
+
+/usr/include/c++/16/numbers:
 
 /home/janaab/Vulkan/Vulkan\ Playground/include/constants.hpp:
 
@@ -1346,6 +1292,8 @@ CMakeFiles/my_vulkan_app.dir/src/main.cpp.o:
 /usr/include/c++/16/stdexcept:
 
 /usr/include/bits/wordsize.h:
+
+/home/janaab/vulkanSDK/1.4.357.1/x86_64/include/vulkan/vulkan_structs.hpp:
 
 /usr/include/asm/bitsperlong.h:
 
@@ -1363,14 +1311,6 @@ CMakeFiles/my_vulkan_app.dir/src/main.cpp.o:
 
 /home/janaab/vulkanSDK/1.4.357.1/x86_64/include/vulkan/vulkan.h:
 
-/usr/include/bits/fp-logb.h:
-
-/usr/include/bits/mathcalls-macros.h:
-
-/usr/include/c++/16/version:
-
-/usr/include/asm-generic/int-ll64.h:
-
 /home/janaab/vulkanSDK/1.4.357.1/x86_64/include/vk_video/vulkan_video_codec_av1std.h:
 
 /usr/include/c++/16/bits/ranges_cmp.h:
@@ -1383,23 +1323,9 @@ CMakeFiles/my_vulkan_app.dir/src/main.cpp.o:
 
 /home/janaab/vulkanSDK/1.4.357.1/x86_64/include/vulkan/vulkan_funcs.hpp:
 
-/usr/include/c++/16/tr1/exp_integral.tcc:
-
-/usr/include/c++/16/bits/enable_special_members.h:
-
-/usr/include/bits/floatn-common.h:
-
 /home/janaab/vulkanSDK/1.4.357.1/x86_64/include/vk_video/vulkan_video_codec_av1std_decode.h:
 
 /home/janaab/Vulkan/Vulkan\ Playground/src/MakeTriangle.cpp:
-
-/usr/include/bits/libc-header-start.h:
-
-/home/janaab/vulkanSDK/1.4.357.1/x86_64/include/vk_video/vulkan_video_codec_h265std.h:
-
-/usr/include/pthread.h:
-
-/usr/include/c++/16/compare:
 
 /usr/include/GL/glext.h:
 
@@ -1425,8 +1351,6 @@ CMakeFiles/my_vulkan_app.dir/src/main.cpp.o:
 
 /usr/include/GL/gl.h:
 
-/usr/include/bits/mathcalls-narrow.h:
-
 /usr/include/c++/16/bits/refwrap.h:
 
 /usr/include/c++/16/bits/shared_ptr.h:
@@ -1437,13 +1361,25 @@ CMakeFiles/my_vulkan_app.dir/src/main.cpp.o:
 
 /home/janaab/vulkanSDK/1.4.357.1/x86_64/include/vk_video/vulkan_video_codec_vp9std.h:
 
+/usr/include/c++/16/backward/auto_ptr.h:
+
+/usr/include/c++/16/bits/atomic_wait.h:
+
+/usr/include/bits/pthreadtypes-arch.h:
+
+/usr/include/stdint.h:
+
+/usr/include/endian.h:
+
+/usr/include/c++/16/bits/exception.h:
+
 /usr/include/c++/16/array:
+
+/usr/include/c++/16/istream:
 
 /usr/include/linux/posix_types.h:
 
 /usr/include/bits/types/FILE.h:
-
-/usr/include/bits/flt-eval-method.h:
 
 /usr/include/GLFW/glfw3.h:
 
@@ -1459,27 +1395,15 @@ CMakeFiles/my_vulkan_app.dir/src/main.cpp.o:
 
 /usr/include/c++/16/cerrno:
 
-/usr/include/c++/16/complex:
-
-/usr/include/KHR/khrplatform.h:
-
-/usr/include/c++/16/bits/atomic_lockfree_defines.h:
-
-/usr/include/bits/errno.h:
-
-/usr/include/c++/16/cstdlib:
-
 /usr/include/alloca.h:
 
 /usr/include/c++/16/clocale:
 
 /usr/include/asm-generic/errno-base.h:
 
-/home/janaab/vulkanSDK/1.4.357.1/x86_64/include/vulkan/vulkan_raii.hpp:
+/usr/include/c++/16/version:
 
-/usr/include/bits/types/__fpos_t.h:
-
-/usr/include/c++/16/bits/char_traits.h:
+/usr/include/asm-generic/int-ll64.h:
 
 /usr/include/bits/time.h:
 
@@ -1493,6 +1417,10 @@ CMakeFiles/my_vulkan_app.dir/src/main.cpp.o:
 
 /usr/include/bits/dl_find_object.h:
 
+/usr/include/c++/16/bits/unicode-data.h:
+
+/usr/include/bits/endian.h:
+
 /usr/include/bits/stdint-uintn.h:
 
 /home/janaab/vulkanSDK/1.4.357.1/x86_64/include/vulkan/vk_platform.h:
@@ -1505,7 +1433,17 @@ CMakeFiles/my_vulkan_app.dir/src/main.cpp.o:
 
 /usr/include/bits/dlfcn.h:
 
+/usr/include/bits/types/wint_t.h:
+
+/usr/include/c++/16/new:
+
 /usr/include/assert.h:
+
+/usr/include/c++/16/x86_64-redhat-linux/bits/gthr.h:
+
+/usr/include/c++/16/bits/codecvt.h:
+
+/usr/include/c++/16/bits/stl_heap.h:
 
 /usr/include/bits/uintn-identity.h:
 
@@ -1523,45 +1461,17 @@ CMakeFiles/my_vulkan_app.dir/src/main.cpp.o:
 
 /usr/include/c++/16/bits/locale_facets.h:
 
-/usr/include/stdlib.h:
-
-/home/janaab/vulkanSDK/1.4.357.1/x86_64/include/vk_video/vulkan_video_codec_av1std_encode.h:
-
-/usr/include/bits/endian.h:
-
-/usr/include/c++/16/bits/unicode-data.h:
-
-/usr/include/bits/iscanonical.h:
-
-/usr/include/c++/16/bits/ios_base.h:
-
-/home/janaab/Vulkan/Vulkan\ Playground/src/functions.cpp:
-
-/usr/include/c++/16/bits/basic_string.h:
-
-/usr/include/gnu/stubs.h:
-
-/usr/include/c++/16/x86_64-redhat-linux/bits/c++locale.h:
-
-/usr/include/c++/16/bits/std_abs.h:
-
-/usr/include/c++/16/bits/cxxabi_forced.h:
-
-/usr/include/c++/16/cwctype:
-
-/usr/include/c++/16/x86_64-redhat-linux/bits/gthr.h:
-
-/usr/include/c++/16/bits/stl_heap.h:
-
-/usr/include/c++/16/bits/codecvt.h:
-
-/usr/include/c++/16/bits/stl_multimap.h:
+/usr/include/bits/pthread_stack_min-dynamic.h:
 
 /usr/include/c++/16/bits/cpp_type_traits.h:
 
 /usr/include/c++/16/bits/cxxabi_init_exception.h:
 
-/usr/include/c++/16/tr1/gamma.tcc:
+/usr/include/bits/floatn-common.h:
+
+/usr/include/c++/16/bits/enable_special_members.h:
+
+/usr/include/c++/16/bits/ptr_traits.h:
 
 /usr/include/c++/16/bits/erase_if.h:
 
@@ -1593,6 +1503,8 @@ CMakeFiles/my_vulkan_app.dir/src/functions.cpp.o:
 
 /usr/include/c++/16/cctype:
 
+/usr/include/c++/16/bits/ios_base.h:
+
 /usr/lib64/libm.so:
 
 /usr/include/c++/16/bits/iterator_concepts.h:
@@ -1606,6 +1518,10 @@ CMakeFiles/my_vulkan_app.dir/src/functions.cpp.o:
 /home/janaab/vulkanSDK/1.4.357.1/x86_64/include/vulkan/vulkan_hpp_macros.hpp:
 
 /usr/include/c++/16/bits/streambuf.tcc:
+
+/usr/include/bits/types/__sigset_t.h:
+
+/usr/include/c++/16/iosfwd:
 
 /usr/lib/gcc/x86_64-redhat-linux/16/libstdc++.so:
 
@@ -1622,10 +1538,6 @@ CMakeFiles/my_vulkan_app.dir/src/functions.cpp.o:
 /usr/include/c++/16/charconv:
 
 /usr/include/c++/16/bits/monostate.h:
-
-/usr/include/c++/16/format:
-
-/usr/include/c++/16/cstddef:
 
 /usr/include/c++/16/bits/nested_exception.h:
 
@@ -1661,27 +1573,13 @@ CMakeFiles/my_vulkan_app.dir/src/functions.cpp.o:
 
 /usr/include/c++/16/bits/ranges_uninitialized.h:
 
-/usr/include/c++/16/bits/align.h:
-
-/usr/include/c++/16/cmath:
+/usr/include/c++/16/limits:
 
 /usr/include/bits/stdint-least.h:
 
 /usr/include/c++/16/bits/shared_ptr_base.h:
 
-/usr/include/bits/mathcalls-helper-functions.h:
-
-/usr/include/c++/16/bits/specfun.h:
-
-/usr/include/c++/16/cstring:
-
-/usr/include/c++/16/bits/sstream.tcc:
-
 /usr/include/c++/16/bits/stdexcept_throw.h:
-
-/usr/include/c++/16/optional:
-
-/usr/include/c++/16/bits/stl_algo.h:
 
 /home/janaab/Vulkan/Vulkan\ Playground/include/MakeTriangle.hpp:
 
@@ -1701,6 +1599,8 @@ CMakeFiles/my_vulkan_app.dir/src/functions.cpp.o:
 
 /usr/include/c++/16/bits/stl_iterator_base_types.h:
 
+/usr/include/c++/16/bits/stl_relops.h:
+
 /usr/include/c++/16/bits/stl_uninitialized.h:
 
 /usr/include/c++/16/bits/string_view.tcc:
@@ -1712,6 +1612,8 @@ CMakeFiles/my_vulkan_app.dir/src/functions.cpp.o:
 /usr/include/c++/16/bits/streambuf_iterator.h:
 
 /usr/include/c++/16/bits/uniform_int_dist.h:
+
+/usr/include/c++/16/iostream:
 
 /usr/include/c++/16/fstream:
 
@@ -1730,6 +1632,8 @@ CMakeFiles/my_vulkan_app.dir/src/functions.cpp.o:
 /usr/include/c++/16/cstdint:
 
 /usr/include/c++/16/cstdio:
+
+/usr/include/c++/16/cstring:
 
 /usr/lib64/libc_nonshared.a:
 
@@ -1759,12 +1663,24 @@ CMakeFiles/my_vulkan_app.dir/src/MakeTriangle.cpp.o:
 
 /usr/include/c++/16/ext/concurrence.h:
 
-/usr/include/bits/atomic_wide_counter.h:
-
 /usr/include/c++/16/bits/charconv.h:
+
+/usr/include/bits/atomic_wide_counter.h:
 
 /usr/include/c++/16/ext/string_conversions.h:
 
 /usr/include/bits/thread-shared-types.h:
 
 /usr/include/c++/16/ext/type_traits.h:
+
+/usr/include/c++/16/initializer_list:
+
+/usr/include/c++/16/cstddef:
+
+/usr/include/c++/16/format:
+
+/usr/include/c++/16/memory:
+
+/usr/include/c++/16/bits/stl_algo.h:
+
+/usr/include/c++/16/optional:

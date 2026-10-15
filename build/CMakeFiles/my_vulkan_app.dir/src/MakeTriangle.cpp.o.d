@@ -2,15 +2,30 @@ CMakeFiles/my_vulkan_app.dir/src/MakeTriangle.cpp.o: \
  /home/janaab/Vulkan/Vulkan\ Playground/src/MakeTriangle.cpp \
  /usr/include/stdc-predef.h \
  /home/janaab/Vulkan/Vulkan\ Playground/include/MakeTriangle.hpp \
+ /usr/include/sys/types.h /usr/include/features.h \
+ /usr/include/features-time64.h /usr/include/bits/wordsize.h \
+ /usr/include/bits/timesize.h /usr/include/sys/cdefs.h \
+ /usr/include/bits/long-double.h /usr/include/gnu/stubs.h \
+ /usr/include/gnu/stubs-64.h /usr/include/bits/types.h \
+ /usr/include/bits/typesizes.h /usr/include/bits/time64.h \
+ /usr/include/bits/types/clock_t.h /usr/include/bits/types/clockid_t.h \
+ /usr/include/bits/types/time_t.h /usr/include/bits/types/timer_t.h \
+ /usr/lib/gcc/x86_64-redhat-linux/16/include/stddef.h \
+ /usr/include/bits/stdint-intn.h /usr/include/endian.h \
+ /usr/include/bits/endian.h /usr/include/bits/endianness.h \
+ /usr/include/bits/byteswap.h /usr/include/bits/uintn-identity.h \
+ /usr/include/sys/select.h /usr/include/bits/select.h \
+ /usr/include/bits/types/sigset_t.h /usr/include/bits/types/__sigset_t.h \
+ /usr/include/bits/types/struct_timeval.h \
+ /usr/include/bits/types/struct_timespec.h \
+ /usr/include/bits/pthreadtypes.h /usr/include/bits/thread-shared-types.h \
+ /usr/include/bits/pthreadtypes-arch.h \
+ /usr/include/bits/atomic_wide_counter.h /usr/include/bits/struct_mutex.h \
+ /usr/include/bits/struct_rwlock.h \
  /home/janaab/vulkanSDK/1.4.357.1/x86_64/include/vulkan/vulkan_raii.hpp \
  /usr/include/c++/16/memory /usr/include/c++/16/bits/memoryfwd.h \
  /usr/include/c++/16/x86_64-redhat-linux/bits/c++config.h \
- /usr/include/bits/wordsize.h \
  /usr/include/c++/16/x86_64-redhat-linux/bits/os_defines.h \
- /usr/include/features.h /usr/include/features-time64.h \
- /usr/include/bits/timesize.h /usr/include/sys/cdefs.h \
- /usr/include/bits/long-double.h /usr/include/gnu/stubs.h \
- /usr/include/gnu/stubs-64.h \
  /usr/include/c++/16/x86_64-redhat-linux/bits/cpu_defines.h \
  /usr/include/c++/16/pstl/pstl_config.h \
  /usr/include/c++/16/bits/version.h /usr/include/c++/16/bits/allocator.h \
@@ -57,7 +72,6 @@ CMakeFiles/my_vulkan_app.dir/src/MakeTriangle.cpp.o: \
  /usr/include/c++/16/bits/postypes.h /usr/include/c++/16/cwchar \
  /usr/include/wchar.h /usr/include/bits/libc-header-start.h \
  /usr/include/bits/floatn.h /usr/include/bits/floatn-common.h \
- /usr/lib/gcc/x86_64-redhat-linux/16/include/stddef.h \
  /usr/lib/gcc/x86_64-redhat-linux/16/include/stdarg.h \
  /usr/include/bits/wchar.h /usr/include/bits/types/wint_t.h \
  /usr/include/bits/types/mbstate_t.h \
@@ -72,15 +86,11 @@ CMakeFiles/my_vulkan_app.dir/src/MakeTriangle.cpp.o: \
  /usr/include/c++/16/x86_64-redhat-linux/bits/c++locale.h \
  /usr/include/c++/16/clocale /usr/include/locale.h \
  /usr/include/bits/locale.h /usr/include/c++/16/cctype \
- /usr/include/ctype.h /usr/include/bits/types.h \
- /usr/include/bits/typesizes.h /usr/include/bits/time64.h \
- /usr/include/bits/endian.h /usr/include/bits/endianness.h \
- /usr/include/c++/16/bits/ios_base.h /usr/include/c++/16/ext/atomicity.h \
+ /usr/include/ctype.h /usr/include/c++/16/bits/ios_base.h \
+ /usr/include/c++/16/ext/atomicity.h \
  /usr/include/c++/16/x86_64-redhat-linux/bits/gthr.h \
  /usr/include/c++/16/x86_64-redhat-linux/bits/gthr-default.h \
- /usr/include/pthread.h /usr/include/sched.h \
- /usr/include/bits/types/time_t.h \
- /usr/include/bits/types/struct_timespec.h /usr/include/bits/sched.h \
+ /usr/include/pthread.h /usr/include/sched.h /usr/include/bits/sched.h \
  /usr/include/linux/sched/types.h /usr/include/linux/types.h \
  /usr/include/asm/types.h /usr/include/asm-generic/types.h \
  /usr/include/asm-generic/int-ll64.h /usr/include/asm/bitsperlong.h \
@@ -89,15 +99,8 @@ CMakeFiles/my_vulkan_app.dir/src/MakeTriangle.cpp.o: \
  /usr/include/asm/posix_types_64.h /usr/include/asm-generic/posix_types.h \
  /usr/include/bits/types/struct_sched_param.h /usr/include/bits/cpu-set.h \
  /usr/include/time.h /usr/include/bits/time.h /usr/include/bits/timex.h \
- /usr/include/bits/types/struct_timeval.h \
- /usr/include/bits/types/clock_t.h /usr/include/bits/types/struct_tm.h \
- /usr/include/bits/types/clockid_t.h /usr/include/bits/types/timer_t.h \
- /usr/include/bits/types/struct_itimerspec.h \
- /usr/include/bits/pthreadtypes.h /usr/include/bits/thread-shared-types.h \
- /usr/include/bits/pthreadtypes-arch.h \
- /usr/include/bits/atomic_wide_counter.h /usr/include/bits/struct_mutex.h \
- /usr/include/bits/struct_rwlock.h /usr/include/bits/setjmp.h \
- /usr/include/bits/types/__sigset_t.h \
+ /usr/include/bits/types/struct_tm.h \
+ /usr/include/bits/types/struct_itimerspec.h /usr/include/bits/setjmp.h \
  /usr/include/bits/types/struct___jmp_buf_tag.h \
  /usr/include/bits/pthread_stack_min-dynamic.h \
  /usr/include/c++/16/x86_64-redhat-linux/bits/atomic_word.h \
@@ -114,11 +117,7 @@ CMakeFiles/my_vulkan_app.dir/src/MakeTriangle.cpp.o: \
  /usr/include/c++/16/bits/string_view.tcc \
  /usr/include/c++/16/ext/string_conversions.h /usr/include/c++/16/cstdlib \
  /usr/include/stdlib.h /usr/include/bits/waitflags.h \
- /usr/include/bits/waitstatus.h /usr/include/sys/types.h \
- /usr/include/bits/stdint-intn.h /usr/include/endian.h \
- /usr/include/bits/byteswap.h /usr/include/bits/uintn-identity.h \
- /usr/include/sys/select.h /usr/include/bits/select.h \
- /usr/include/bits/types/sigset_t.h /usr/include/alloca.h \
+ /usr/include/bits/waitstatus.h /usr/include/alloca.h \
  /usr/include/bits/stdlib-float.h /usr/include/c++/16/bits/std_abs.h \
  /usr/include/c++/16/cstdio /usr/include/stdio.h \
  /usr/include/bits/types/__fpos_t.h /usr/include/bits/types/__fpos64_t.h \
@@ -231,25 +230,4 @@ CMakeFiles/my_vulkan_app.dir/src/MakeTriangle.cpp.o: \
  /usr/include/c++/16/map /usr/include/c++/16/bits/stl_tree.h \
  /usr/include/c++/16/bits/node_handle.h \
  /usr/include/c++/16/bits/stl_map.h \
- /usr/include/c++/16/bits/stl_multimap.h /usr/include/c++/16/complex \
- /usr/include/c++/16/cmath /usr/include/math.h \
- /usr/include/bits/math-vector.h /usr/include/bits/libm-simd-decl-stubs.h \
- /usr/include/bits/flt-eval-method.h /usr/include/bits/fp-logb.h \
- /usr/include/bits/fp-fast.h /usr/include/bits/mathcalls-macros.h \
- /usr/include/bits/mathcalls-helper-functions.h \
- /usr/include/bits/mathcalls.h /usr/include/bits/mathcalls-narrow.h \
- /usr/include/bits/iscanonical.h /usr/include/c++/16/bits/specfun.h \
- /usr/include/c++/16/tr1/gamma.tcc \
- /usr/include/c++/16/tr1/special_function_util.h \
- /usr/include/c++/16/tr1/bessel_function.tcc \
- /usr/include/c++/16/tr1/beta_function.tcc \
- /usr/include/c++/16/tr1/ell_integral.tcc \
- /usr/include/c++/16/tr1/exp_integral.tcc \
- /usr/include/c++/16/tr1/hypergeometric.tcc \
- /usr/include/c++/16/tr1/legendre_function.tcc \
- /usr/include/c++/16/tr1/modified_bessel_func.tcc \
- /usr/include/c++/16/tr1/poly_hermite.tcc \
- /usr/include/c++/16/tr1/poly_laguerre.tcc \
- /usr/include/c++/16/tr1/riemann_zeta.tcc /usr/include/c++/16/sstream \
- /usr/include/c++/16/bits/sstream.tcc \
- /home/janaab/vulkanSDK/1.4.357.1/x86_64/include/vulkan/vulkan_core.h
+ /usr/include/c++/16/bits/stl_multimap.h
