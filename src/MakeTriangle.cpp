@@ -1,8 +1,16 @@
 #include "MakeTriangle.hpp"
 #include "constants.hpp"
+#include "functions.hpp"
 #include "vulkan/vulkan.hpp"
-#include <GLFW/glfw3.h>
+
+#include <cstdint>
+#include <limits>
+#include <algorithm>
+#include <glm/glm.hpp>
+#include <iostream>
+#include <map>
 #include <stdexcept>
+#include <vulkan/vulkan_raii.hpp>
 
 void MakeTriangle::framebufferResizeCallback(GLFWwindow* window, int width, int height)
 {
@@ -222,29 +230,20 @@ void MakeTriangle::createLogicalDevice()
         if ((queueFamilyProperties[qfpIndex].queueFlags & vk::QueueFlagBits::eGraphics) &&
             (physicalDevice.getSurfaceSupportKHR(qfpIndex, *surface)))
         {
-            queueIndex = qfpIndex;
+            graphicsQueueIndex = qfpIndex;
             break;
         }
     }
 
-    if (queueIndex == ~0)
+    if (graphicsQueueIndex == ~0)
     {
-        throw std::runtime_error("Could not find a queue for graphics and present -> terminating");
+        throw std::runtime_error("Could not find a queue for graphics and presenting -> terminating");
     }
-
-    auto graphicsQueueFamilyProperty = std::ranges::find_if
-    (
-        queueFamilyProperties, [](const auto& qfp)
-        {
-            return (qfp.queueFlags & vk::QueueFlagBits::eGraphics) != static_cast<vk::QueueFlags>(0);
-        }
-    );
-    auto graphicsIndex = static_cast<u_int32_t>(std::distance(queueFamilyProperties.begin(), graphicsQueueFamilyProperty));
-    float queuePriority = 0.5f;
+    float queuePriority = 0.5f; // Drivers may ignore this or not depending on implementation, like 1.0 vs 1.0 is 0.5 for both
     
     vk::DeviceQueueCreateInfo deviceQueueCreateInfo =
     {
-        .queueFamilyIndex = graphicsIndex,
+        .queueFamilyIndex = graphicsQueueIndex,
         .queueCount = 1,
         .pQueuePriorities = &queuePriority,
     };
@@ -259,9 +258,9 @@ void MakeTriangle::createLogicalDevice()
     featureChain =
     {
         { },
-        { .shaderDrawParameters = true },
-        { .dynamicRendering = true },
-        { .extendedDynamicState = true },
+        { .shaderDrawParameters = true }, // Enables BaseVertex (offset for the vertex buffer in indexed drawing), BaseInstance (the ID for the first instance in indexed drawing) and DrawIndex (objects in an indirect buffer) to be read by shaders
+        { .dynamicRendering = true }, // Remove vk::RenderPass and vk::Framebuffer
+        { .extendedDynamicState = true }, // Adds some modes which you can set up as dynamic
     };
 
     std::vector<const char*> requiredDeviceExtension = { vk::KHRSwapchainExtensionName };
@@ -275,11 +274,11 @@ void MakeTriangle::createLogicalDevice()
         .ppEnabledExtensionNames = requiredDeviceExtension.data(),
     };
 
-    device = vk::raii::Device(physicalDevice, deviceCreateInfo);
-    graphicsQueue = vk::raii::Queue(device, graphicsIndex, 0);
+    device = vk::raii::Device( physicalDevice, deviceCreateInfo );
+    graphicsQueue = vk::raii::Queue( device, graphicsQueueIndex, 0 ); // device, queueIndex, index of the queue in the family
 }
 
-u_int32_t MakeTriangle::chooseSwapMinImageCount(const vk::SurfaceCapabilitiesKHR& surfaceCapabilities) const
+uint32_t MakeTriangle::chooseSwapMinImageCount(const vk::SurfaceCapabilitiesKHR& surfaceCapabilities) const
 {
     auto minImageCount = std::max(3u, surfaceCapabilities.minImageCount);
 
@@ -462,7 +461,15 @@ void MakeTriangle::createGraphicsPipeline()
 
     vk::PipelineShaderStageCreateInfo shaderStages[] = { vertShaderStageInfo, fragShaderStageInfo };
 
-    vk::PipelineVertexInputStateCreateInfo vertexInputInfo;
+    auto bindingDescription = Vertex::getBindingDescription(); // Tells if the data is vertex/instance and the binding slot
+    auto attributeDescriptions = Vertex::getAttributeDescriptions(); // Tells about the attributes for each binding
+    vk::PipelineVertexInputStateCreateInfo vertexInputInfo
+    {
+        .vertexBindingDescriptionCount = 1,
+        .pVertexBindingDescriptions = &bindingDescription,
+        .vertexAttributeDescriptionCount = static_cast<uint32_t>(attributeDescriptions.size()),
+        .pVertexAttributeDescriptions = attributeDescriptions.data(),
+    };
 
     // TriangleList will do (1, 2, 3), (4, 5, 6), TriangleStrip will do (1, 2, 3), (2, 3, 4)
     vk::PipelineInputAssemblyStateCreateInfo inputAssembly
@@ -581,20 +588,181 @@ void MakeTriangle::createGraphicsPipeline()
 
 void MakeTriangle::createCommandPool()
 {
-    vk::CommandPoolCreateInfo poolInfo
+    vk::CommandPoolCreateInfo graphicsPoolInfo
     {
         .flags = vk::CommandPoolCreateFlagBits::eResetCommandBuffer, // Makes it so resetting (clearing their recording) command buffers can happen individually
-        .queueFamilyIndex = queueIndex,
+        .queueFamilyIndex = graphicsQueueIndex,
     };
 
-    commandPool = vk::raii::CommandPool( device, poolInfo );
+    vk::CommandPoolCreateInfo transferPoolInfo
+    {
+        .flags = vk::CommandPoolCreateFlagBits::eResetCommandBuffer, // Makes it so resetting (clearing their recording) command buffers can happen individually
+        .queueFamilyIndex = graphicsQueueIndex,
+    };
+    
+    graphicsCommandPool = vk::raii::CommandPool( device, graphicsPoolInfo );
+    transferCommandPool = vk::raii::CommandPool( device, transferPoolInfo );
+}
+
+void MakeTriangle::getVertices()
+{
+    vertices = {
+        {{-0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}},
+        {{-0.5f,  0.5f}, {0.0f, 1.0f, 0.0f}},
+        {{ 0.5f,  0.5f}, {0.0f, 0.0f, 1.0f}},
+        {{ 0.5f, -0.5f}, {1.0f, 0.0f, 1.0f}},
+    };
+}
+
+void MakeTriangle::getIndices()
+{
+    indices = {
+        0, 2, 1, 0, 3, 2
+    };
+}
+
+uint32_t MakeTriangle::findMemoryType(uint32_t typeFilter, vk::MemoryPropertyFlags properties)
+{
+    // This will provide us with the device's memory heaps and types (Host -> CPU)
+    // Memory heaps -> GPU vram/shared memory, multiple GPUs or tile based GPUs
+    // Memory types -> How memory is visible, cached and how you allocate stuff
+    vk::PhysicalDeviceMemoryProperties memProperties = physicalDevice.getMemoryProperties();
+
+    for (uint32_t i{0}; i < memProperties.memoryTypeCount; ++i)
+    {
+        // Earlier types in the GPUs better (ordered that way)
+        // Types given in memProperties has types 0, 1, 2... and so on, at type 0, it'll have property flags which should map to our properties
+        if ((typeFilter & (1 << i)) && (memProperties.memoryTypes[i].propertyFlags & properties) == properties)
+        {
+            return i;
+        }
+    }
+
+    throw std::runtime_error("Failed to find suitable memory type!");
+}
+
+std::pair<vk::raii::Buffer, vk::raii::DeviceMemory> MakeTriangle::createBuffer(
+    vk::DeviceSize size,
+    vk::BufferUsageFlags usage,
+    vk::MemoryPropertyFlags properties
+)
+{
+    vk::BufferCreateInfo bufferCreateInfo
+    {
+        .size = size,
+        .usage = usage, // Multiple usages can be done through bitmasks
+        .sharingMode = vk::SharingMode::eExclusive, // Buffer will owned by one queue in eExclusive, eConcurrent for multiple
+    };
+
+    vk::raii::Buffer buffer = vk::raii::Buffer( device, bufferCreateInfo );
+
+    // This'll give size of the required memory (may differ from buffer.size()), where the buffer begins after the offset in memory required, bit field of the memory types that are useful for the buffer
+    vk::MemoryRequirements memRequirements = buffer.getMemoryRequirements();
+
+    vk::MemoryAllocateInfo memoryAllocateInfo
+    {
+        .allocationSize = memRequirements.size,
+        .memoryTypeIndex = findMemoryType( memRequirements.memoryTypeBits, properties ),
+    };
+
+    vk::raii::DeviceMemory bufferMemory = vk::raii::DeviceMemory( device, memoryAllocateInfo );
+    buffer.bindMemory( *bufferMemory, 0 );
+    return { std::move(buffer), std::move(bufferMemory) };
+}
+
+void MakeTriangle::copyBuffer(vk::raii::Buffer& srcBuffer, vk::raii::Buffer& dstBuffer, vk::DeviceSize bufferSize)
+{
+    vk::CommandBufferAllocateInfo allocInfo
+    {
+        .commandPool = transferCommandPool,
+        .level = vk::CommandBufferLevel::ePrimary, // primary is for execution but cannot be called from other command buffers, secondary is vice versa
+        .commandBufferCount = 1,
+    };
+
+    vk::raii::CommandBuffer commandCopyBuffer = std::move( device.allocateCommandBuffers( allocInfo ).front() );
+
+    commandCopyBuffer.begin({
+        .flags = vk::CommandBufferUsageFlagBits::eOneTimeSubmit,
+    });
+
+    commandCopyBuffer.copyBuffer( *srcBuffer, *dstBuffer, vk::BufferCopy( 0, 0, bufferSize ) ); // Buffer copy takes srcOffset in srcBuffer, dstOffset and size
+    
+    commandCopyBuffer.end();
+
+    graphicsQueue.submit(
+        vk::SubmitInfo {
+            .commandBufferCount = 1,
+            .pCommandBuffers = &*commandCopyBuffer,
+        },
+        nullptr
+    );
+    // For more transfer queues, fences can be made to make sure every one of them ends
+    graphicsQueue.waitIdle(); // Until the copying is done (commands in commandCopyBuffer), CPU stops executing stuff
+}
+
+void MakeTriangle::createVertexBuffer()
+{
+    getVertices();
+    vk::DeviceSize bufferSize = sizeof(vertices[0]) * vertices.size();
+
+    // Here flags can also be set up like:
+    // Sparse Binding -> Physical VRAM will only get allocated when necessary even though virtual VRAM can get allocated straight up like 4gb
+    // Sparse Residency -> Makes sure if you access the virtual VRAM (which hasn't gotten its physical VRAM yet), it gives you zeroes
+    // Sparse Aliasing -> Multiple pages in virtual VRAM can point to the same physical memory
+    // Protected -> DRM protected shi
+    auto [stagingBuffer, stagingBufferMemory] = createBuffer(
+        bufferSize,
+        vk::BufferUsageFlagBits::eTransferSrc, // Buffer can be used as source in a memory transfer operation
+        vk::MemoryPropertyFlagBits::eHostVisible | // CPU can touch the memory
+        vk::MemoryPropertyFlagBits::eHostCoherent // CPU and GPU writes become visible to each other without manual cache management
+    );
+
+    // CPU accessible memory
+    void *dataStaging = stagingBufferMemory.mapMemory( 0, bufferSize );
+    memcpy(dataStaging, vertices.data(), bufferSize);
+    stagingBufferMemory.unmapMemory();
+
+    std::tie(vertexBuffer, vertexBufferMemory) = createBuffer(
+        bufferSize,
+        vk::BufferUsageFlagBits::eVertexBuffer |
+        vk::BufferUsageFlagBits::eTransferDst, // Buffer can be used as destination in a memory transfer operation
+        vk::MemoryPropertyFlagBits::eDeviceLocal
+    );
+
+    copyBuffer( stagingBuffer, vertexBuffer, bufferSize );
+}
+
+void MakeTriangle::createIndexBuffer()
+{
+    getIndices();
+    vk::DeviceSize bufferSize = sizeof(indices[0]) * indices.size();
+    auto [stagingBuffer, stagingBufferMemory] = createBuffer(
+        bufferSize,
+        vk::BufferUsageFlagBits::eTransferSrc, // Buffer can be used as source in a memory transfer operation
+        vk::MemoryPropertyFlagBits::eHostVisible | // CPU can touch the memory
+        vk::MemoryPropertyFlagBits::eHostCoherent // CPU and GPU writes become visible to each other without manual cache management
+    );
+
+    // CPU accessible memory
+    void *dataStaging = stagingBufferMemory.mapMemory( 0, bufferSize );
+    memcpy(dataStaging, indices.data(), bufferSize);
+    stagingBufferMemory.unmapMemory();
+
+    std::tie(indexBuffer, indexBufferMemory) = createBuffer(
+        bufferSize,
+        vk::BufferUsageFlagBits::eIndexBuffer |
+        vk::BufferUsageFlagBits::eTransferDst, // Buffer can be used as destination in a memory transfer operation
+        vk::MemoryPropertyFlagBits::eDeviceLocal
+    );
+
+    copyBuffer( stagingBuffer, indexBuffer, bufferSize );
 }
 
 void MakeTriangle::createCommandBuffers()
 {
     vk::CommandBufferAllocateInfo allocInfo
     {
-        .commandPool = commandPool,
+        .commandPool = graphicsCommandPool,
         .level = vk::CommandBufferLevel::ePrimary, // primary is for execution but cannot be called from other command buffers, secondary is vice versa
         .commandBufferCount = constants::MAX_FRAMES_IN_FLIGHT,
     };
@@ -661,7 +829,13 @@ void MakeTriangle::recordCommandBuffer(uint32_t imageIndex)
         vk::PipelineStageFlagBits2::eColorAttachmentOutput
     );
 
-    vk::ClearValue clearColor = vk::ClearColorValue(0.0f ,0.0f ,0.0f ,1.0f);
+    vk::ClearValue clearColor
+    {
+        .color = vk::ClearColorValue
+        {
+            .float32 = std::array<float, 4>{0.0f, 0.0f, 0.0f, 1.0f}
+        }
+    };
     vk::RenderingAttachmentInfo attachmentInfo = {
         .imageView = swapChainImageViews[imageIndex],
         .imageLayout = vk::ImageLayout::eColorAttachmentOptimal,
@@ -683,6 +857,9 @@ void MakeTriangle::recordCommandBuffer(uint32_t imageIndex)
 
     commandBuffer.beginRendering( renderingInfo );
     commandBuffer.bindPipeline( vk::PipelineBindPoint::eGraphics, *graphicsPipeline );
+    commandBuffer.bindVertexBuffers( 0, *vertexBuffer, {0} ); // Binding the buffer to slot 0, array of buffers, array of offsets for reading vertex data
+    commandBuffer.bindIndexBuffer( *indexBuffer, 0, vk::IndexType::eUint16 ); // Doesn't need binding slots as it's just indices compared to vertices, which can have different types of data and you might not want them all to be fetched
+
     // Viewport and Scissor are dynamic
     commandBuffer.setViewport(
         0,
@@ -697,7 +874,7 @@ void MakeTriangle::recordCommandBuffer(uint32_t imageIndex)
     );
     commandBuffer.setScissor( 0, vk::Rect2D( vk::Offset2D( 0, 0 ), swapChainExtent ) );
 
-    commandBuffer.draw( 3, 1, 1, 0 ); // vertexCount, instanceCount, firstVertex, firstInstance (default values for instancing as we're not doing that)
+    commandBuffer.drawIndexed( static_cast<uint32_t>(indices.size()), 1, 0, 0, 0 ); // indexCount, instanceCount, firstVertex, vertexOffset, firstInstance (default values for instancing as we're not doing that)
     commandBuffer.endRendering();
 
     transition_image_layout(
@@ -764,7 +941,7 @@ void MakeTriangle::drawFrame()
         .commandBufferCount = 1,
         .pCommandBuffers = &*commandBuffers[frameIndex],
         .signalSemaphoreCount = 1,
-        .pSignalSemaphores = &*renderFinishedSemaphores[frameIndex], // Signal this when completed
+        .pSignalSemaphores = &*renderFinishedSemaphores[imageIndex], // Signal this when completed
     };
 
     graphicsQueue.submit( submitInfo, *inFlightFences[frameIndex] );
@@ -772,7 +949,7 @@ void MakeTriangle::drawFrame()
     const vk::PresentInfoKHR presentInfoKHR
     {
         .waitSemaphoreCount = 1,
-        .pWaitSemaphores = &*renderFinishedSemaphores[frameIndex],
+        .pWaitSemaphores = &*renderFinishedSemaphores[imageIndex],
         .swapchainCount = 1,
         .pSwapchains = &*swapChain, // Can be multiple for diff monitors/images
         .pImageIndices = &imageIndex, // Can be multiple for diff monitors/images
@@ -804,6 +981,8 @@ void MakeTriangle::initVulkan()
     createImageViews();
     createGraphicsPipeline();
     createCommandPool();
+    createVertexBuffer();
+    createIndexBuffer();
     createCommandBuffers();
     createSyncObjects();
 }
